@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.springProject.exception.UnSuportOperationException;
+
 @RestController
 @RequestMapping("/math")
 public class MathController {
@@ -15,13 +17,13 @@ public class MathController {
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
 		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
-			throw new Exception();
+			throw new UnSuportOperationException("please set is numeric value");
 		
 		return converterToDouble(numberOne) +converterToDouble( numberTwo);
 		}
 
 	private Double converterToDouble(String number) {
-		if(!isnumeric(number)) throw new IllegalArgumentException();
+		if(!isnumeric(number)) throw new UnSuportOperationException("please set is numeric value");
 		return Double.valueOf(number);
 	}
 
