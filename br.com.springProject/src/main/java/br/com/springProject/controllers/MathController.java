@@ -5,21 +5,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springProject.exception.UnSuportOperationException;
+import br.com.springProject.service.MatchSimple;
+import br.com.springProject.util.RequestConverter;
 
 @RestController
 @RequestMapping("/math")
 public class MathController {
-	
+	private MatchSimple math = new MatchSimple();
 	
 	@RequestMapping("/sum/{numberOne}/{numberTwo}")
 	public Double sum  ( 
 			@PathVariable("numberOne") String numberOne,
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
-		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
+		if(! RequestConverter.isnumeric(numberOne) || ! RequestConverter.isnumeric(numberTwo)) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return converterToDouble(numberOne) +converterToDouble( numberTwo);
+		return math.sum( RequestConverter.converterToDouble(numberOne) ,RequestConverter.converterToDouble( numberTwo));
 		}
 	
 	@RequestMapping("/sub/{numberOne}/{numberTwo}")
@@ -27,10 +29,10 @@ public class MathController {
 			@PathVariable("numberOne") String numberOne,
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
-		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
+		if(! RequestConverter.isnumeric(numberOne) || ! RequestConverter.isnumeric(numberTwo)) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return converterToDouble(numberOne) - converterToDouble( numberTwo);
+		return math.sub(RequestConverter.converterToDouble(numberOne) , RequestConverter.converterToDouble( numberTwo));
 		}
 	
 	@RequestMapping("/multi/{numberOne}/{numberTwo}")
@@ -38,10 +40,10 @@ public class MathController {
 			@PathVariable("numberOne") String numberOne,
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
-		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
+		if(! RequestConverter.isnumeric(numberOne) || ! RequestConverter.isnumeric(numberTwo)) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return converterToDouble(numberOne) * converterToDouble( numberTwo);
+		return math.sub(RequestConverter.converterToDouble(numberOne), RequestConverter.converterToDouble( numberTwo));
 		}
 	
 	@RequestMapping("/div/{numberOne}/{numberTwo}")
@@ -49,10 +51,10 @@ public class MathController {
 			@PathVariable("numberOne") String numberOne,
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
-		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
+		if(!RequestConverter.isnumeric(numberOne) || ! RequestConverter.isnumeric(numberTwo)) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return converterToDouble(numberOne) / converterToDouble( numberTwo);
+		return math.div(RequestConverter.converterToDouble(numberOne), RequestConverter.converterToDouble( numberTwo));
 		}
 	
 	@RequestMapping("/media/{numberOne}/{numberTwo}")
@@ -60,10 +62,10 @@ public class MathController {
 			@PathVariable("numberOne") String numberOne,
 			@PathVariable("numberTwo") String numberTwo
 	) throws Exception {
-		if(! isnumeric(numberOne) || ! isnumeric(numberTwo)) 
+		if(! RequestConverter.isnumeric(numberOne) || ! RequestConverter.isnumeric(numberTwo)) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return (converterToDouble(numberOne) + converterToDouble( numberTwo)) /2;
+		return math.media(RequestConverter.converterToDouble(numberOne) , RequestConverter.converterToDouble( numberTwo));
 		}
 	
 	@RequestMapping("/raiz/{number}")
@@ -71,25 +73,14 @@ public class MathController {
 			@PathVariable("number") String number
 			
 	) throws Exception {
-		if(! isnumeric(number) ) 
+		if(! RequestConverter.isnumeric(number) ) 
 			throw new UnSuportOperationException("please set is numeric value");
 		
-		return (Math.sqrt(converterToDouble(number)));
+		return math.raiz( RequestConverter.converterToDouble(number));
 		}
 	
 
-	private Double converterToDouble(String number) {
-		if(!isnumeric(number)) throw new UnSuportOperationException("please set is numeric value");
-		return Double.valueOf(number);
-	}
-
-	private boolean isnumeric(String strnumber) {
-		if(strnumber == null || strnumber.isEmpty()) return false;
-		
-		String number = strnumber.replace(",", ".");
-		
-		return number.matches("[-+]?[0-9]*\\.?[0-9]+"); 
-	}
+	
 		
 	
 }
