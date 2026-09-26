@@ -83,4 +83,11 @@ public class Person implements Serializable {
 	public Person() {
 	}
 
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", fistName=" + fistName + ", lastName=" + lastName + ", addrees=" + addrees
+				+ ", gender=" + gender + "]";
+	}
+	
+
 }
